@@ -15,10 +15,16 @@ void main()
 		curr->data = data;
 		curr = curr->next;
 	}
+	for (i = 0; i < 10; i++) {
+		int* data = malloc(sizeof(int));
+		*data = i;
+		llist_add(llist, data);
+	}
 
 	int* data = malloc(sizeof(int));
-	*data = 10;
-	llist_add(llist, data);
+	*data = 999;
+	llist_add_i(llist, 0, data);
+	llist_add_i(llist, 11, data);
 
 	llist_print(llist, printInt);
 }

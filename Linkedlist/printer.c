@@ -2,14 +2,22 @@
 
 #include <stdio.h>
 
-void printInt(void* data) {
+void printInt(void* data)
+{
 	printf("%d", *(int*)data);
 }
 
-void printFloat(void* data) {
+void printFloat(void* data)
+{
 	printf("%f", *(float*)data);
 }
 
-void printString(void* data) {
+void printChar(void* data)
+{
+	printf("%c", *(char*)data);
+}
+
+void printString(void* data)
+{
 	printf("%s", *(char**)data);
 }
