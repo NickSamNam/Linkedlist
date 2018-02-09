@@ -26,12 +26,11 @@ Node* llist_create(int length)
 void llist_add(Node* llist, void* data)
 {
 	Node* node = malloc(sizeof(Node));
-	Node* curr = llist;
-	while (curr->next != NULL)
+	while (llist->next != NULL)
 	{
-		curr = (curr->next);
+		llist = (llist->next);
 	}
-	curr->next = node;
+	llist->next = node;
 	node->data = data;
 	node->next = NULL;
 }
@@ -48,25 +47,23 @@ void llist_add_i(Node* llist, int index, void* data) {
 	}
 	else 
 	{
-		Node* curr = llist;
 		int i;
 		for (i = 0; i < index - 1; i++) {
-			curr = (curr->next);
+			llist = (llist->next);
 		}
 		node->data = data;
-		node->next = curr->next;
-		curr->next = node;
+		node->next = llist->next;
+		llist->next = node;
 	}
 }
 
 void llist_print(Node* llist, printer printer)
 {
-	Node* curr = llist;
 	printf("{");
-	while (curr != NULL) {
-		printer(curr->data);
-		curr = curr->next;
-		if (curr != NULL) printf(", ");
+	while (llist != NULL) {
+		printer(llist->data);
+		llist = llist->next;
+		if (llist != NULL) printf(", ");
 	}
 	printf("}");
 }
