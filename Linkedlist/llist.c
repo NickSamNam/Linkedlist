@@ -16,6 +16,7 @@ Node* llist_create(int length)
 		for (i = 0; i < length - 1; i++) {
 			Node* node = malloc(sizeof(Node));
 			curr->next = node;
+			curr->data = NULL;
 			curr = curr->next;
 		}
 		curr->next = NULL;
