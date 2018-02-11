@@ -56,5 +56,16 @@ void main()
 	llist_addAll_i(llist, 0, llist3);
 	llist_addAll_i(llist, 5, llist4);
 
+	llist_remove_i(llist, 0);
+
+	llist_remove_i(llist, 1);
+
+	llist_remove_i(llist, 48);
+
+	llist_add_i(llist, 0, data);
+
+	llist_remove_e(llist, data);
+	llist_remove_e(llist, data);
+
 	llist_print(llist, printInt);
 }

@@ -54,7 +54,6 @@ void llist_add(Node* llist, void* data)
 
 void llist_add_i(Node* llist, int index, void* data)
 {
-	if (index < 0) return;
 	Node* node = malloc(sizeof(Node));
 	if (index == 0)
 	{
@@ -87,7 +86,6 @@ void llist_addAll(Node* llist, Node* other)
 
 void llist_addAll_i(Node* llist, int index, Node* other)
 {
-	if (index < 0) return;
 	if (index == 0)
 	{
 		Node* curr = other;
@@ -113,6 +111,59 @@ void llist_addAll_i(Node* llist, int index, Node* other)
 		}
 		last->next = llist->next;
 		llist->next = other;
+	}
+}
+
+void llist_remove_i(Node* llist, int index)
+{
+	Node* next;
+	if (index == 0)
+	{
+		next = llist->next;
+		llist->data = next->data;
+		llist->next = next->next;
+		free(next);
+	}
+	else
+	{
+		int i;
+		for (i = 0; i < index - 1; i++)
+		{
+			llist = (llist->next);
+		}
+		next = llist->next;
+		llist->next = next->next;
+		free(next);
+	}
+}
+
+
+//todo
+void llist_remove_e(Node* llist, void* data)
+{
+	int i = 0;
+	while (llist->next != NULL)
+	{
+		if (llist->data == data)
+		{
+			Node* next;
+			if (i == 0)
+			{
+				next = llist->next;
+				llist->data = next->data;
+				llist->next = next->next;
+				free(next);
+			}
+			else
+			{
+				next = llist->next;
+				llist->next = next->next;
+				free(next);
+			}
+			break;
+		}
+		llist = (llist->next);
+		i++;
 	}
 }
 
