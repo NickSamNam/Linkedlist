@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "llist.h"
 #include "printer.h"
+#include "copier.h"
 
 void main()
 {
@@ -90,11 +91,43 @@ void main()
 	llist_print(*llist, printInt);
 	printf("\n");
 
-	/* Remove item contain element */
+	/* Remove item contain element: llist_remove_e */
 	llist_add_i(llist, 0, data);
 	llist_remove_e(llist, data);
 	llist_remove_e(llist, data);
 
 	llist_print(*llist, printInt);
+	printf("\n");
+
+	/* Clear list: llist_clear */
+	llist_clear(llist);
+
+	llist_print(*llist, printInt);
+	printf("\n");
+
+	Node** llist5 = llist_create();
+	for (i = 10; i > 0; i--)
+	{
+		int* data = malloc(sizeof(int));
+		*data = i;
+		llist_add(llist5, data);
+	}
+	llist_addAll(llist, *llist5);
+
+	llist_print(*llist, printInt);
+	printf("\n");
+
+	/* Number of items: llist_length */
+	printf("Number of items: %d\n", llist_length(*llist));
+
+	/* Item exists: llist_exist */
+	printf("%d exists: %d\n", *((int*)((*llist)->data)), llist_exist(*llist, (*llist)->data));
+	printf("%d exists: %d\n", *llist, llist_exist(*llist, *llist));
+
+	/* Deep copy: llist_copy_deep */
+	Node** llist_copy = llist_copy_deep(*llist, copyInt);
+	llist_clear(llist);
+
+	llist_print(*llist_copy, printInt);
 	printf("\n");
 }

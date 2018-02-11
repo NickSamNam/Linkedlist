@@ -3,6 +3,7 @@
 
 #include "llist.h"
 #include "printer.h"
+#include "copier.h"
 
 Node** llist_create()
 {
@@ -75,12 +76,19 @@ void llist_add_i(Node** llist, int index, void* data)
 
 void llist_addAll(Node** llist, Node* other)
 {
-	Node* curr = *llist;
-	while (curr->next != NULL)
+	if (*llist == NULL)
 	{
-		curr = (curr->next);
+		*llist = other;
 	}
-	curr->next = other;
+	else
+	{
+		Node* curr = *llist;
+		while (curr->next != NULL)
+		{
+			curr = (curr->next);
+		}
+		curr->next = other;
+	}
 }
 
 void llist_addAll_i(Node** llist, int index, Node* other)
@@ -160,6 +168,67 @@ void llist_remove_e(Node** llist, void* data)
 			curr = (curr->next);
 		}
 	}
+}
+
+void llist_clear(Node** llist)
+{
+	Node* curr = *llist;
+	while (curr != NULL)
+	{
+		Node* del = curr;
+		curr = curr->next;
+		free(del);
+	}
+	*llist = NULL;
+}
+
+int llist_length(Node* llist)
+{
+	int i = 0;
+	while (llist != NULL)
+	{
+		i++;
+		llist = llist->next;
+	}
+	return i;
+}
+
+int llist_exist(Node* llist, void* data)
+{
+	while (llist != NULL)
+	{
+		if (llist->data == data)
+		{
+			return 1;
+		}
+		llist = llist->next;
+	}
+	return 0;
+}
+
+Node** llist_copy_deep(Node* llist, copier copier)
+{
+	Node** copy = calloc(1, sizeof(Node*));
+	if (llist == NULL) return copy;
+
+	Node* curr = calloc(1, sizeof(Node));
+	*copy = curr;
+	while (llist != NULL)
+	{
+		curr->data = copier(llist->data);
+		if (llist->next == NULL)
+		{
+			curr->next = NULL;
+			break;
+		}
+		else
+		{
+			curr->next = malloc(sizeof(Node*));
+		}
+		curr = curr->next;
+		llist = llist->next;
+	}
+	return copy;
 }
 
 void llist_print(Node* llist, printer printer)

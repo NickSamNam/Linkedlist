@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="copier.c" />
     <ClCompile Include="llist.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="printer.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="copier.h" />
     <ClInclude Include="llist.h" />
     <ClInclude Include="printer.h" />
   </ItemGroup>

@@ -24,12 +24,18 @@
     <ClCompile Include="printer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="copier.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="llist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="printer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="copier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
