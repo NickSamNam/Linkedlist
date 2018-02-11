@@ -85,6 +85,37 @@ void llist_addAll(Node* llist, Node* other)
 	llist->next = other;
 }
 
+void llist_addAll_i(Node* llist, int index, Node* other)
+{
+	if (index < 0) return;
+	if (index == 0)
+	{
+		Node* curr = other;
+		while (curr->next != NULL)
+		{
+			curr = (curr->next);
+		}
+		curr->next = llist->next;
+		llist->data = other->data;
+		llist->next = other->next;
+	}
+	else
+	{
+		Node* last = other;
+		while (last->next != NULL)
+		{
+			last = (last->next);
+		}
+		int i;
+		for (i = 0; i < index - 1; i++)
+		{
+			llist = (llist->next);
+		}
+		last->next = llist->next;
+		llist->next = other;
+	}
+}
+
 void llist_print(Node* llist, printer printer)
 {
 	printf("{");

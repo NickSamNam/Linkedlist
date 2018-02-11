@@ -36,5 +36,25 @@ void main()
 
 	llist_addAll(llist, llist2);
 
+	Node* llist3 = llist_create();
+	for (i = 10; i > 0; i--)
+	{
+		int* data = malloc(sizeof(int));
+		*data = i;
+		llist_add(llist3, data);
+	}
+
+
+	Node* llist4 = llist_create();
+	for (i = 10; i > 0; i--)
+	{
+		int* data = malloc(sizeof(int));
+		*data = i;
+		llist_add(llist4, data);
+	}
+
+	llist_addAll_i(llist, 0, llist3);
+	llist_addAll_i(llist, 5, llist4);
+
 	llist_print(llist, printInt);
 }
