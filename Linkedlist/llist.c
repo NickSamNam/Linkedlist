@@ -4,87 +4,86 @@
 #include "llist.h"
 #include "printer.h"
 
-Node* llist_create()
+Node** llist_create()
 {
-	Node* llist = malloc(sizeof(Node));
-	llist->data = NULL;
-	llist->next = NULL;
+	Node** llist = calloc(1, sizeof(Node*));
 	return llist;
 }
 
-Node* llist_create_l(int length)
+Node** llist_create_l(int length)
 {
-	if (length < 1)
+	Node** llist = calloc(1, sizeof(Node*));
+	if (length > 0)
 	{
-		return NULL;
+		*llist = calloc(1, sizeof(Node));
 	}
-	Node* llist = malloc(sizeof(Node));
 	if (length > 1)
 	{
-		Node* curr = llist;
+		Node* curr = *llist;
 		int i;
 		for (i = 0; i < length - 1; i++)
 		{
-			Node* node = malloc(sizeof(Node));
+			Node* node = calloc(1, sizeof(Node));
 			curr->next = node;
-			curr->data = NULL;
 			curr = curr->next;
 		}
-		curr->next = NULL;
 	}
 	return llist;
 }
 
-void llist_add(Node* llist, void* data)
+void llist_add(Node** llist, void* data)
 {
-	if (llist->data == NULL)
-	{
-		llist->data = data;
-		return;
-	}
 	Node* node = malloc(sizeof(Node));
-	while (llist->next != NULL)
-	{
-		llist = (llist->next);
-	}
-	llist->next = node;
 	node->data = data;
 	node->next = NULL;
-}
-
-void llist_add_i(Node* llist, int index, void* data)
-{
-	Node* node = malloc(sizeof(Node));
-	if (index == 0)
+	if (*llist == NULL)
 	{
-		node->data = llist->data;
-		node->next = llist->next;
-		llist->next = node;
-		llist->data = data;
+		*llist = node;
 	}
 	else
 	{
-		int i;
-		for (i = 0; i < index - 1; i++)
+		Node* curr = *llist;
+		while (curr->next != NULL)
 		{
-			llist = (llist->next);
+			curr = (curr->next);
 		}
-		node->data = data;
-		node->next = llist->next;
-		llist->next = node;
+		curr->next = node;
 	}
 }
 
-void llist_addAll(Node* llist, Node* other)
+void llist_add_i(Node** llist, int index, void* data)
 {
-	while (llist->next != NULL)
+	Node* node = malloc(sizeof(Node));
+	node->data = data;
+	if (index == 0)
 	{
-		llist = (llist->next);
+		node->next = *llist;
+		*llist = node;
 	}
-	llist->next = other;
+	else
+	{
+		Node* curr = *llist;
+		int i;
+		for (i = 1; i < index; i++)
+		{
+			curr = curr->next;
+		}
+		node->next = curr->next;
+		curr->next = node;
+	}
 }
 
-void llist_addAll_i(Node* llist, int index, Node* other)
+void llist_addAll(Node** llist, Node* other)
+{
+	Node* curr = *llist;
+	while (curr->next != NULL)
+	{
+		curr = (curr->next);
+	}
+	curr->next = other;
+}
+
+void llist_addAll_i(Node** llist, int index, Node* other)
 {
 	if (index == 0)
 	{
@@ -93,12 +92,12 @@ void llist_addAll_i(Node* llist, int index, Node* other)
 		{
 			curr = (curr->next);
 		}
-		curr->next = llist->next;
-		llist->data = other->data;
-		llist->next = other->next;
+		curr->next = *llist;
+		*llist = other;
 	}
 	else
 	{
+		Node* curr = *llist;
 		Node* last = other;
 		while (last->next != NULL)
 		{
@@ -107,63 +106,59 @@ void llist_addAll_i(Node* llist, int index, Node* other)
 		int i;
 		for (i = 0; i < index - 1; i++)
 		{
-			llist = (llist->next);
+			curr = curr->next;
 		}
-		last->next = llist->next;
-		llist->next = other;
+		last->next = curr->next;
+		curr->next = other;
 	}
 }
 
-void llist_remove_i(Node* llist, int index)
+void llist_remove_i(Node** llist, int index)
 {
 	Node* next;
 	if (index == 0)
 	{
-		next = llist->next;
-		llist->data = next->data;
-		llist->next = next->next;
-		free(next);
+		next = (*llist)->next;
+		free(*llist);
+		*llist = next;
 	}
 	else
 	{
+		Node* curr = *llist;
 		int i;
 		for (i = 0; i < index - 1; i++)
 		{
-			llist = (llist->next);
+			curr = curr->next;
 		}
-		next = llist->next;
-		llist->next = next->next;
+		next = curr->next;
+		curr->next = next->next;
 		free(next);
 	}
 }
 
-
-//todo
-void llist_remove_e(Node* llist, void* data)
+void llist_remove_e(Node** llist, void* data)
 {
-	int i = 0;
-	while (llist->next != NULL)
+	Node* next;
+	if ((*llist)->data == data)
 	{
-		if (llist->data == data)
+		next = (*llist)->next;
+		free(*llist);
+		*llist = next;
+	}
+	else
+	{
+		Node* curr = *llist;
+		while (curr->next != NULL)
 		{
-			Node* next;
-			if (i == 0)
+			if (curr->next->data == data)
 			{
-				next = llist->next;
-				llist->data = next->data;
-				llist->next = next->next;
+				next = curr->next;
+				curr->next = next->next;
 				free(next);
+				break;
 			}
-			else
-			{
-				next = llist->next;
-				llist->next = next->next;
-				free(next);
-			}
-			break;
+			curr = (curr->next);
 		}
-		llist = (llist->next);
-		i++;
 	}
 }
 
@@ -172,7 +167,14 @@ void llist_print(Node* llist, printer printer)
 	printf("{");
 	while (llist != NULL)
 	{
-		printer(llist->data);
+		if (llist->data == NULL)
+		{
+			printf("NULL");
+		}
+		else
+		{
+			printer(llist->data);
+		}
 		llist = llist->next;
 		if (llist != NULL) printf(", ");
 	}
