@@ -2,8 +2,6 @@
 #include <stdio.h>
 
 #include "llist.h"
-#include "printer.h"
-#include "copier.h"
 
 Node** llist_create()
 {

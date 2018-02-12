@@ -3,6 +3,11 @@
 #include "copier.h"
 
 typedef struct _Node Node;
+struct _Node
+{
+	void* data;
+	Node* next;
+};
 
 Node** llist_create();
 Node** llist_create_l(int length);
@@ -17,8 +22,3 @@ int llist_length(Node*);
 int llist_exist(Node*, void* data);
 Node** llist_copy_deep(Node* llist, copier copier);
 void llist_print(Node* node, printer printer);
-
-struct _Node {
-	void* data;
-	Node* next;
-};

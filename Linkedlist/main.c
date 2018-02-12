@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "llist.h"
-#include "printer.h"
-#include "copier.h"
 
 void main()
 {
